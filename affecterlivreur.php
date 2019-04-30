@@ -1,19 +1,52 @@
 <?php
-include "C:/xampp/htdocs/EyeZone/core/livraisonC.php";
-include "C:/xampp/htdocs/EyeZone/entites/livraison.php";
+
+include "C:/xampp/htdocs/EyeZone/core/livreurC.php";
+
+
+$livraison= new livreurC();
+$ville=$livraison->afficherville();
+if(isset($_GET['idLivreur']) && isset($_GET['idLivraison']))
+{
+   $nb=$livraison->getnbLivraison($_GET['idLivreur']);
+foreach ($nb as $li) {$nombre=$li['nblivraison'];}
+
+    $livraison->AffecterLivreurLivraison($_GET['idLivreur'],$_GET['idLivraison']);
+    $livraison->Livreur_INC_nblivraison($_GET['idLivreur'],$nombre);
+
+header('Location: livraison.php');
+
+}
+$id=0;
+if(isset($_GET['id']))
+{
+	$id=$_GET['id'];
+}
+
+$nom_ville="";
+if(isset($_GET['nom_ville']))
+{
+    $nom_ville=$_GET['nom_ville'];
+}
+$livreur=$livraison->AfficherLivreurDisponible($nom_ville);
+
+if (isset($_POST['ville']) )
+{
 
 
 
+$l = new livreurC();
+$l->AffecterVilleLivreur($id,$_POST['ville']);
 
-$l = new livraisonC();
-$r = $l->recupererLivraison($_GET['id']);
+header('Location: afficherlivreur.php');
+
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Livraisons</title>
+    <title>EyeZone | Clients</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -134,22 +167,22 @@ $r = $l->recupererLivraison($_GET['id']);
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
             <ul class="list-unstyled">
-                <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="supprimerlivraison.php"> <i class="icon-grid"></i>Produits </a></li>
-                <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-                <li ><a href="forms.html"> <i class="icon-padnote"></i>Clients </a></li>
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                    </ul>
-                </li>
-                <li class="active">><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
-                <li><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
-               <li><a href="login.html"> <i class="icon-interface-windows"></i> Service après vente </a></li>
+            <li><a href="index.php"> <em class="icon-home"></em>  Home </a></li>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
+            <li><a href="commande.php"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
+            <li><a href="forms.php"> <i class="icon-padnote"></i>Clients </a></li>
+            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+              </ul>
+            </li>
+           <li class="active"><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
+            <li><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
 
-            </ul><span class="heading">Extras</span>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Service aprés vente </a></li>
+          </ul><span class="heading">Extras</span>
             <ul class="list-unstyled">
                 <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
                 <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
@@ -176,35 +209,55 @@ $r = $l->recupererLivraison($_GET['id']);
                 <div class="container-fluid">
                     <div class="row">
                         <!-- Form Elements -->
-                        <div class="col-lg-12">
+
+                                                <div class="col-lg-12">
                             <div class="card">
+                                <div class="card-close">
+                                    <div class="dropdown">
+                                        <button type="button" id="closeCard4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                                    </div>
+
+                                </div>
+
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Champs à modifier</h3>
-                                </div> <?php foreach ($r as $m){ ?>           
-                                    <div class="card-body">
-                                        <form class="form-horizontal" action="modifierlivr.php?id=<?php echo $_GET['id']?>"  method="post">
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 form-control-label" >Date de livraison:</label>
-                                                <div class="col-sm-9">
-                                                <input type="date" class="form-control" name="dateLivraison" value="<?php echo $m['dateLivraison'] ?>" >
-                                                </div>
-                                                
-                                                <div class="col-sm-9">
-                                                   <input type="text" hidden class="form-control" name="username" value="<?php echo $m['username'] ?>">
-                                                </div>
-                                                
-                                                    <input type="text" hidden class="form-control" name="nom_ville" value="<?php echo $m['nom_ville'] ?>" >
-                                                
-                                                    <input hidden type="number" class="form-control" name="idLivraison" value="<?php echo $m['idLivraison'] ?>" >
-                                                
-                                                <div class="col-sm-9"> 
-                                                    <input type="tel" hidden class="form-control" required name="num_tel" pattern="[0-9]{2}[0-9]{3}[0-9]{3}" placeholder="12345678" value="<?php echo $m['num_tel'] ?>" >
-                                                </div>
-                                                    <input type="number" hidden class="form-control" name="idCommande" value="<?php echo $m['idCommande'] ?>" >
-                                                <input type="submit" >
-                                            </div>
-                                        </form>
-                                    </div> <?php }  ?>
+                                    <h3 class="h4">Compact Table</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th>idLivreur</th>
+                                                <th>nom </th>
+                                                <th>prenom </th>
+                                                <th>numero </th>
+                                                <th>ville</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($livreur as $li) { ?>
+                                                <tr>
+                                                    <th scope="row"><?php echo $li->idLivreur  ?></th>
+                                                    <td><?php echo $li->nom ?></td>
+                                                    <td><?php echo $li->prenom ?></td>
+                                                    <td><?php echo $li->num_tel ?></td>
+                                                    <td><?php echo $li->nom_ville ?></td>
+                                                    <td> <a href="affecterLivreur.php?idLivreur=<?=$li->idLivreur?>&idLivraison=<?=$id?>" class="btn btn-danger">Affecter Livreur</a> </td>
+
+                                                </tr>
+                                            <?php }?>
+
+          
+                                            </tbody>
+                                        </table>
+                                    
+                                        <a href="ajouterlivreur.php" class="btn btn-dark"> Aller pour l'ajout</a>
+                                        <a href="livraison.php" class="btn btn-primary"> retour</a>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,3 +291,7 @@ $r = $l->recupererLivraison($_GET['id']);
 <script src="js/front.js"></script>
 </body>
 </html>
+
+
+
+

@@ -5,8 +5,9 @@
  * Date: 30/03/2019
  * Time: 17:29
  */
-include "core/livreurC.php";
-include "entite/livreur.php";
+include "C:/xampp/htdocs/EyeZone/core/livreurC.php";
+include "C:/xampp/htdocs/EyeZone/entites/livreur.php";
+
 $l = new livreurC();
 $res = $l->recupererLivreur($_GET['id'])
 ?>
@@ -15,7 +16,7 @@ $res = $l->recupererLivreur($_GET['id'])
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Clients</title>
+    <title>EyeZone | Livreur</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -179,39 +180,33 @@ $res = $l->recupererLivreur($_GET['id'])
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">All form elements</h3>
+                                    <h3 class="h4">Champs à modifier</h3>
                                 </div> <?php foreach ($res as $m){ ?>
-                                    <<div class="card-body">
+
+                                    <div class="card-body">
                                         <form class="form-horizontal" action="modifierliv.php?id=<?php echo $_GET['id'] ?>" method="post">
                                             <div class="form-group row">
-                                                <label class="col-sm-3 form-control-label" >nom</label>
+                                                <label class="col-sm-3 form-control-label" >Nom</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="nom" value="<?php echo $m['nom'] ?>" >
+                                                    <input type="text" class="form-control" required name="nom" value="<?php echo $m['nom'] ?>" >
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">prenom</label>
+                                                <label class="col-sm-3 form-control-label">Prénom</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="prenom" value="<?php echo $m['prenom'] ?>" >
+                                                   <input type="text" class="form-control" required name="prenom" value="<?php echo $m['prenom'] ?>">
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">cin</label>
+                                                
+                                                    <input type="number" hidden class="form-control" name="cin" value="<?php echo $m['cin'] ?>" >
+                                                
+                                                    <input hidden type="number" class="form-control" name="idLivreur" value="<?php echo $m['idLivreur'] ?>" >
+                                                <label type="email" class="col-sm-3 form-control-label">E-mail</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" class="form-control" name="cin" value="<?php echo $m['cin'] ?>" >
+                                                <input type="email" class="form-control" required name="mail" value="<?php echo $m['mail'] ?>" input>
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">ville actuelle</label>
+                                                <label type="number" class="col-sm-3 form-control-label">Téléphone</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="ville" value="<?php echo $m['ville_actuelle'] ?>" >
+                                                    <input type="number" class="form-control" required name="num_tel" pattern="[0-9]{2}[0-9]{3}[0-9]{3}" placeholder="12345678" value="<?php echo $m['num_tel'] ?>" >
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">situation</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="situation" value="<?php echo $m['situation'] ?>" >
-                                                </div>
-                                                <label class="col-sm-3 form-control-label">tel</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" class="form-control" name="tel" value="<?php echo $m['num_tel'] ?>" >
-                                                </div>
-                                                <label class="col-sm-3 form-control-label">E-mail</label>
-                                                <div class="col-sm-9">
-                                                    <input type="email" class="form-control" name="mail" value="<?php echo $m['mail'] ?>" >
-                                                </div>
+                                                    <input type="number" hidden class="form-control" required name="nblivraison" value="<?php echo $m['nblivraison'] ?>" >
                                                 <input type="submit" >
                                             </div>
                                         </form>

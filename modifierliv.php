@@ -1,14 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nour
- * Date: 30/03/2019
- * Time: 18:05
- */
-include "core/livreurC.php";
-include "entite/livreur.php";
-$livraison = new livreur($_POST['cin'],$_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_POST['ville'],$_POST['situation'],0,0);
-var_dump($livraison);
-$l = new livreurC();
-$l->modifierLivreur($livraison,$_GET['id']);
+
+include "C:/xampp/htdocs/EyeZone/core/livreurC.php";
+include "C:/xampp/htdocs/EyeZone/entites/livreur.php";
+if(isset($_GET['id']))
+{
+$li= new livreurC();
+
+$livreur= new livreur($_POST['nblivraison'],$_POST['prenom'],$_POST['nom'],$_POST['mail'],$_POST['num_tel'],$_POST['cin']);
+//var_dump($livraison);
+$li->modifierLivreur($livreur,$_GET['id']);
 header('Location: afficherlivreur.php');
+}
+?> 

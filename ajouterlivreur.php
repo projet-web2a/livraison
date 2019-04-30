@@ -123,21 +123,23 @@
                 </div>
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-            <ul class="list-unstyled">
-                <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="supprimerlivraison.php"> <i class="icon-grid"></i>Produits </a></li>
-                <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-                <li class="active"><a href="forms.html"> <i class="icon-padnote"></i>Clients </a></li>
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                    </ul>
-                </li>
-                <li><a href="espacelivraison.php"> <i class="icon-interface-windows"></i>LIVRAISONS </a></li>
-                <li><a href="login.html"> <i class="icon-interface-windows"></i>Service aprés vente </a></li>
-            </ul><span class="heading">Extras</span>
+             <ul class="list-unstyled">
+            <li><a href="index.php"> <em class="icon-home"></em>  Home </a></li>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
+            <li><a href="commande.php"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
+            <li><a href="forms.php"> <i class="icon-padnote"></i>Clients </a></li>
+            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+              </ul>
+            </li>
+           <li ><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
+            <li class="active"><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
+
+            <li><a href="tables.php"> <i class="icon-grid"></i>Service aprés vente </a></li>
+          </ul><span class="heading">Extras</span>
             <ul class="list-unstyled">
                 <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
                 <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
@@ -149,14 +151,14 @@
             <!-- Page Header-->
             <header class="page-header">
                 <div class="container-fluid">
-                    <h2 class="no-margin-bottom">Clients</h2>
+                    <h2 class="no-margin-bottom">Livreurs</h2>
                 </div>
             </header>
             <!-- Breadcrumb-->
             <div class="breadcrumb-holder container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Clients</li>
+                    <li class="breadcrumb-item active">Livreurs</li>
                 </ul>
             </div>
             <!-- Forms Section-->
@@ -167,42 +169,34 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">All form elements</h3>
+                                    <h3 class="h4">Table des livreurs à ajouter:</h3>
                                 </div>
                                     <div class="card-body">
                                         <form class="form-horizontal"  action="ajouterliv.php" method="post">
                                             <div class="form-group row">
-                                                <label class="col-sm-3 form-control-label" >nom</label>
+                                                <label class="col-sm-3 form-control-label" >Nom</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" required name="nom" >
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">prenom</label>
+                                                <label class="col-sm-3 form-control-label">Prénom</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" required name="prenom">
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">cin</label>
+                                                <label class="col-sm-3 form-control-label">CIN</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" class="form-control" required name="cin">
+                                                    <input type="tel" id="tel" name="tel" required pattern="[0-9]{2}[0-9]{3}[0-9]{3}" placeholder="12345678">
                                                 </div>
-                                                <label class="col-sm-3 form-control-label">ville actuelle</label>
+                                              
+                                                <label class="col-sm-3 form-control-label">Numéro de téléphone:</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" required name="ville">
-                                                </div>
-                                                <label class="col-sm-3 form-control-label">situation</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" required name="situation">
-                                                </div>
-                                                <label class="col-sm-3 form-control-label">tel</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" class="form-control" required name="tel">
-                                                </div>
+
+                                               <input type="tel" id="tel" name="tel" pattern="[0-9]{2}[0-9]{3}[0-9]{3}" placeholder="12345678">                                                </div>
                                                 <label class="col-sm-3 form-control-label">E-mail</label>
                                                 <div class="col-sm-9">
                                                     <input type="email" class="form-control" required name="mail" >
-                                                </div>
-                                                <input type="submit" >
-                                            </div>
-                                        </form>
+                                                </div> 
+                                                <input type="submit" class=" btn btn-dark" name="" >
+
                                     </div>
                             </div>
                         </div>

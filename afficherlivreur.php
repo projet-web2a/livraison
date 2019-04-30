@@ -1,17 +1,27 @@
 <?php
-include "core/livreurC.php";
-include "entite/livreur.php";
+
+include "C:/xampp/htdocs/EyeZone/core/livreurC.php";
+include "C:/xampp/htdocs/EyeZone/entites/livreur.php";
+
 
 $livraison= new livreurC();
 $livraisons=$livraison->afficherLivreur();
+$ville=$livraison->afficherville();
+
+//$livraisonlivraison=new livraisonC();
+//$livraisonlivraisons=$livraisonlivraison->afficherlivraison();
+if (isset($_GET['sup']))
+{
+    echo '<script language="javascript">';
+echo 'window.alert("Ce livreur possde encore des livraison")';
+echo '</script>';
+}
 if(isset($_GET['maction']))
 {$maction=$_GET['maction'];
-echo $maction;
 
-echo "la vie est  bell";
 
 $par=$_GET['par'];
-echo $par;
+
 $livraisons=$livraison->trier($par);
 }
 ?>
@@ -20,9 +30,9 @@ $livraisons=$livraison->trier($par);
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Livreur</title>
+    <title> EyeZone | Livreurs </title>
     <meta name="description" content="">
-    <title>EyeZone | Livraison</title>
+    
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -142,22 +152,23 @@ $livraisons=$livraison->trier($par);
                 </div>
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-            <ul class="list-unstyled">
-                <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li class="active"><a href="livraison.php"> <i class="icon-grid"></i>Livraisons </a></li>
-                <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-                <li><a href="forms.html"> <i class="icon-padnote"></i>Clients </a></li>
-                <li><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
+             <ul class="list-unstyled">
+            <li ><a href="index.php"> <em class="icon-home"></em>  Home </a></li>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
+            <li><a href="commande.php"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
+            <li><a href="forms.php"> <i class="icon-padnote"></i>Clients </a></li>
+            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+              </ul>
+            </li>
+            <li><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
+            <li class="active"><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
 
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                    </ul>
-                </li>
-                <li><a href="login.html"> <i class="icon-interface-windows"></i>service aprés vente </a></li>
-            </ul><span class="heading">Extras</span>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Service aprés vente </a></li>
+          </ul><span class="heading">Extras</span>
             <ul class="list-unstyled">
                 <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
                 <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
@@ -169,16 +180,16 @@ $livraisons=$livraison->trier($par);
             <!-- Page Header-->
             <header class="page-header">
                 <div class="container-fluid">
-                    <h2 class="no-margin-bottom">Livraisons</h2>
+                    <h2 class="no-margin-bottom">Livreurs</h2>
                 </div>
             </header>
             <!-- Breadcrumb-->
             <div class="breadcrumb-holder container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Livraisons</li>
+                    <li class="breadcrumb-item active">Livreurs/li>
                 </ul>
-                <a href="ajouterlivreur.php" class="btn btn-primary">ajouter un livreur</a>
+                <a href="ajouterlivreur.php" class="btn btn-dark">ajouter un livreur</a>
             </div>
             <section class="tables">
                 <div class="container-fluid">
@@ -188,63 +199,65 @@ $livraisons=$livraison->trier($par);
                                 <div class="card-close">
                                     <div class="dropdown">
                                         <button type="button" id="closeCard4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Fermer</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Modifier</a></div>
                                     </div>
 
                                 </div>
 
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Compact Table</h3>
+                                    <h3 class="h4">Table des livreurs</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-sm">
                                             <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>ID</th>
                                                 <th>cin</th>
-                                                <th>nom</th>
-                                                <th>prenom</th>
-                                                <th>mail</th>
-                                                <th>tel</th>
-                                                <th>ville</th>
-                                                <th>situation</th>
-                                                <th>latitude</th>
-                                                <th>longitude</th>
+                                                <th>Nom</th>
+                                                <th>Prénom</th>
+                                                <th>E-mail</th>
+                                                <th>Téléphone</th>
+                                                <th>Nombre de livraisons</th>
                                                 <th>action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php foreach ($livraisons as $li) { ?>
                                                 <tr>
-                                                    <th scope="row"><?php echo $li['id']  ?></th>
+                                                    <th scope="row"><?php echo $li['idLivreur']  ?></th>
                                                     <td><?php echo $li['cin']  ?></td>
                                                     <td><?php echo $li['nom']  ?></td>
                                                     <td><?php echo $li['prenom']  ?></td>
                                                     <td><?php echo $li['mail']  ?></td>
                                                     <td><?php echo $li['num_tel']  ?></td>
-                                                    <td><?php echo $li['ville_actuelle']  ?></td>
-                                                    <td><?php echo $li['situation']  ?></td>
-                                                    <td><?php echo $li['last']  ?></td>
-                                                    <td><?php echo $li['lng']  ?></td>
+                                                    <td><?php echo $li['nblivraison']  ?></td>
                                                     <td>
                                                         <ul>
-                                                            <a href="modifierlivreur.php?id=<?php echo $li['id']?>" class="btn btn-primary">modifier</a>
-                                                            <a href="supprimerlivreur.php?id=<?php echo $li['id']?>" class="btn btn-danger">supprimer</a>
+                                                            <a href="modifierlivreur.php?id=<?php echo $li['idLivreur']?>" class="btn btn-primary">Modifier</a>
+                                                            <a href="supprimerlivreur.php?id=<?php echo $li['idLivreur']?>" class="btn btn-danger">Supprimer</a>
+                                                             <a href="affecterville.php?id=<?php echo $li['idLivreur']?>" class="btn btn-primary">Affecter Ville</a>
+
+
                                                         </ul>
                                                     </td>
                                                 </tr>
                                             <?php }?>
+                                          
+          
                                             </tbody>
                                         </table>
                                         <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Trier Par
-                                        </a>
+                              Trier Par
+                          </a>
 
-                                        <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item " href="afficherlivreur.php?maction=trier&par=nom">Nom du livreur</a>
-                                        </div>
-                                        <a href="index.html" class="btn btn-primary"> retour</a>
+                          <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item " href="afficherlivreur.php?maction=trier&par=idLivreur">ID</a>
+                              <a class="dropdown-item " href="afficherlivreur.php?maction=trier&par=nom">Nom</a>
+                              <a class="dropdown-item " href="afficherlivreur.php?maction=trier&par=prenom">Prénom</a>
+                              <a class="dropdown-item " href="afficherlivreur.php?maction=trier&par=nblivraison">Nombre de livraisons </a>
+                          </div>
+                                        <a href="afficherlivreur.php" class="btn btn-dark"> retour</a>
                                     </div>
                                 </div>
                             </div>
@@ -252,6 +265,7 @@ $livraisons=$livraison->trier($par);
                     </div>
                 </div>
             </section>
+            
             <!-- Page Footer-->
             <footer class="main-footer">
                 <div class="container-fluid">

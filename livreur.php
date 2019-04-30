@@ -1,38 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dell
- * Date: 28/03/2019
- * Time: 22:50
- */
+
 
 class livreur
 {
 
-    private $cin;
-    private $nom;
+    private $nblivraison;
     private $prenom;
+    private $nom;
     private $mail;
     private $num_tel;
-    private $ville_actuelle;
-    private $situation;
-    private $lat;
-    private $lng;
+    private $cin;
+    
 
 
-
-    function __construct($cin,$nom,$prenom,$mail,$num_tel, $ville_actuelle,$situation,$lat,$lng)
+    function __construct($nblivraison,$prenom,$nom,$mail,$num_tel,$cin)
     {
-        $this->cin=$cin;
-        $this->nom=$nom;
+
+        $this->nblivraison=$nblivraison;
         $this->prenom=$prenom;
-        $this->mail=$mail;
         $this->num_tel=$num_tel;
-        $this->ville_actuelle=$ville_actuelle;
-        $this->situation=$situation;
-        $this->lat=$lat;
-        $this->lng=$lng;
+        $this->nom=$nom;
+        $this->mail=$mail;
+        $this->cin=$cin;
     }
+     
+   
     function getcin(){
         return $this->cin;
     }
@@ -48,18 +40,10 @@ class livreur
     function getnum_tel(){
         return $this->num_tel;
     }
-    function getville_actuelle(){
-        return $this->ville_actuelle;
+    function getnblivraison(){
+        return $this->nblivraison;
     }
-    function getsituation(){
-        return $this->situation;
-    }
-    function getlat(){
-        return $this->lat;
-    }
-    function getlng(){
-        return $this->lng;
-    }
+  
     function setcin($cin){
         $this->cin=$cin;
     }
@@ -75,16 +59,11 @@ class livreur
     function setnum_tel($num_tel){
         $this->num_tel=$num_tel;
     }
-    function setcode_livraison($code_livraison){
-        $this->code_livraison=$code_livraison;
+    function setnblivraison($nbivraison){
+        $this->nblivraison=$nblivraison;
     }
-    function setsituation($situation){
-        $this->situation=$situation;
+    function setidLivreur($idLivreur){
+        $this->idLivreur=$idLivreur;
     }
-    function setlat($lat){
-        $this->lat=$lat;
-    }
-    function setlng($lng){
-        $this->lng=$lng;
-    }
+  
 }

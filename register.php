@@ -45,8 +45,7 @@
             <div class="col-lg-6 bg-white">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form method="POST" action="view/ajouterutilisateur.php" class="form-validate">
-                      <table>
+                  <form class="form-validate">
                     <div class="form-group">
                       <input id="register-username" type="text" name="registerUsername" required data-msg="Please enter your username" class="input-material">
                       <label for="register-username" class="label-material">User Name</label>
@@ -66,9 +65,7 @@
                     <div class="form-group">
                       <button id="regidter" type="submit" name="registerSubmit" class="btn btn-primary">Register</button>
                     </div>
-                      </table>
-                  </form>
-                  <small>Already have an account? </small><a href="login.html" class="signup">Login</a>
+                  </form><small>Already have an account? </small><a href="login.php" class="signup">Login</a>
                 </div>
               </div>
             </div>

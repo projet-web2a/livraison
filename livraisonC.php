@@ -1,12 +1,13 @@
 <?php
-include "C:/xampp\htdocs\webnour\admin\configuration.php";
+
+require_once 'C:/xampp/htdocs/eyezone/config.php';
+//include "../entity/livraison.php";
 class livraisonC
 {
     function get_last_code()
     {
-        $sql="SELECT * FROM livraison ORDER by code_Livraison DESC limit 1";
-       // $db =Connexion::getConnexion();
-        global $db;
+        $sql="SELECT * FROM livraison ORDER by idLivraison DESC limit 1";
+        $db =Config::getConnexion();
         try{
             $liste=$db->query($sql);
             $donnes = $liste->fetch();
@@ -18,43 +19,28 @@ class livraisonC
     }
 
     function ajouterlivraison($livraison){
-        $sql="INSERT INTO livraison (nom,prenom,adresse_ligne_1,adresse_ligne_2,ville,mail,num_tel,code_livre,date_livraison,affectation,livreur,prix) values ( :nom,:prenom,:adresse_ligne_1,:adresse_ligne_2,:ville,:mail,:num_tel,:code_livre,:date_livraison,:affectation,:livreur,:prix)";
-        //$sql="INSERT INTO `employe`(`cin`, `nom`, `prenon`, `nbHeurs`, `tarifHeur`) VALUES (:c,:nom,:prenon,:nbHeurs,:tarifHeur)";
-       // $db =Connexion::getConnexion();
-        global $db;
+  
+        $sql="INSERT INTO livraison (adresseLivraison,nom_ville,num_tel,dateLivraison,username,idCommande) values ( :adresseLivraison,:nom_ville,:num_tel,:dateLivraison,:username,:idCommande)";
+        $db =Config::getConnexion();
+
         try{
-            $req=$db->prepare($sql);
+            //$req=$db->prepare($sql);
 
 
-            $nom=$livraison->getnom();
-            $prenom=$livraison->getprenom();
-            $adresse_ligne_1=$livraison->getadresse_ligne_1();
-            $adresse_ligne_2=$livraison->getadresse_ligne_2();
-            $ville=$livraison->getville();
-            $mail=$livraison->getmail();
+            $adresseLivraison=$livraison->getadresseLivraison();
+            $nom_ville=$livraison->getnom_ville();
             $num_tel=$livraison->getnum_tel();
-            $code_livre=$livraison->getcode_livre();
-            $date_livraison=$livraison->getdate_livraison();
-            $affectation=$livraison->getaffectation();
-            $livreur=$livraison->getlivreur();
-            $prix=$livraison->getprix();
-
-            $req->bindValue(':nom',$nom);
-            $req->bindValue(':prenom',$prenom);
-            $req->bindValue(':adresse_ligne_1',$adresse_ligne_1);
-            $req->bindValue(':adresse_ligne_2',$adresse_ligne_2);
-
-            $req->bindValue(':ville',$ville);
-            $req->bindValue(':mail',$mail);
+            $dateLivraison=$livraison->getdateLivraison();
+            $username=$livraison->getusername();
+            $idCommande=$livraison->getidCommande();
+            $req=$db->prepare($sql);
+            $req->bindValue(':adresseLivraison',$adresseLivraison);
+            $req->bindValue(':nom_ville',$nom_ville);
             $req->bindValue(':num_tel',$num_tel);
-            $req->bindValue(':code_livre',$code_livre);
+            $req->bindValue(':dateLivraison',$dateLivraison);
 
-            $req->bindValue(':date_livraison',$date_livraison);
-            $req->bindValue(':affectation',$affectation);
-            $req->bindValue(':livreur',$livreur);
-            $req->bindValue(':prix',$prix);
-
-
+            $req->bindValue(':username',$username);
+            $req->bindValue(':idCommande',$idCommande);
             $req->execute();
 
         }
@@ -64,10 +50,8 @@ class livraisonC
     }
 
     function afficherlivraison(){
-        //$sql="SElECT * From employe e inner join formationphp.employe a on e.cin= a.cin";
-        global $db;
         $sql="SElECT * From livraison";
-       // $db =Connexion::getConnexion();
+        $db =Config::getConnexion();
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -76,11 +60,46 @@ class livraisonC
             die('Erreur: '.$e->getMessage());
         }
     }
-    function afficherlivraison_livreur($rre){
-        //$sql="SElECT * From employe e inner join formationphp.employe a on e.cin= a.cin";
-        global $db;
-        $sql="SELECT * from livraison where  livreur='$rre' and affectation=:0";
-        //$db =Connexion::getConnexion();
+     function recherche($search_value)
+    {
+        $sql="SELECT * FROM livraison where  idLivraison like '$search_value' or adresseLivraison like '%$search_value%' or nom_ville like '%$search_value%' or num_tel like '$search_value' or dateLivraison like '%$search_value%' or username like '%$search_value%' or idLivreur like '$search_value' or idCommande like '$search_value'";
+
+        //global $db;
+        $db =Config::getConnexion();
+
+        try{
+            $result=$db->query($sql);
+
+            return $result;
+
+        }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }
+    function trier($par)
+    {
+        $sql="SELECT * FROM livraison order by $par ";
+
+        //global $db;
+        $db =Config::getConnexion();
+
+        try{
+            $result=$db->query($sql);
+
+            return $result;
+
+        }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+        }
+
+
+  /*  function afficherlivraison_livreur($rre)
+    {
+        $sql="SELECT * from livraison where  livreur='$rre' and affectation=0";
+        $db = Connexion::getConnexion();
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -90,11 +109,11 @@ class livraisonC
         }
     }
     function afficherlivraisonforone($rre,$date){
-        //$sql="SElECT * From employe e inner join formationphp.employe a on e.cin= a.cin";
-        //$sql="SElECT * From livraison where prenom=$rre ";
+
         $sql="SELECT * from livraison where nom='$rre' and date_livraison >='$date'";
-        global $db;
-       // $db =Connexion::getConnexion();
+
+        $db =Connexion::getConnexion();
+
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -105,11 +124,10 @@ class livraisonC
     }
 
     function afficherlivraisonforonetous($rre){
-        //$sql="SElECT * From employe e inner join formationphp.employe a on e.cin= a.cin";
-        //$sql="SElECT * From livraison where prenom=$rre ";
-        $sql="SELECT * from livraison where code_livraison=".$rre;
-        global $db;
-        //$db =Connexion::getConnexion();
+
+        $sql="SELECT * from livraison where nom='$rre' ";
+        $db =Connexion::getConnexion();
+
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -118,11 +136,27 @@ class livraisonC
             die('Erreur: '.$e->getMessage());
         }
     }
+*/
+    function supprimerlivraison($idLivraison)
+    {
+        $sql="DELETE FROM livraison where idLivraison=:idLivraison";
+       $db =Config::getConnexion();
 
-    function supprimerlivraison($code_Livraison){
-        $sql="DELETE FROM livraison where code_Livraison= :code_Livraison";
-        // $db =Connexion::getConnexion();
-        global $db;
+        $req=$db->prepare($sql);
+        $req->bindValue(':idLivraison',$idLivraison);
+        try{
+            $req->execute();
+            // header('Location: index.php');
+        }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }
+
+ /*   function modifierlivraison_livreur($idLivraison){
+        $sql="UPDATE livraison SET affectation='1' where idLivraison= :idLivraison";
+       $db =Connexion::getConnexion();
+
         $req=$db->prepare($sql);
         $req->bindValue(':code_Livraison',$code_Livraison);
         try{
@@ -133,27 +167,10 @@ class livraisonC
             die('Erreur: '.$e->getMessage());
         }
     }
-
-    function modifierlivraison_livreur($code_Livraison){
-        $sql="UPDATE livraison SET affectation='1' where code_Livraison= :code_Livraison";
-        //$db =Connexion::getConnexion();
-        global $db;
-        $req=$db->prepare($sql);
-        $req->bindValue(':code_Livraison',$code_Livraison);
-        try{
-            $req->execute();
-            // header('Location: index.php');
-        }
-        catch (Exception $e){
-            die('Erreur: '.$e->getMessage());
-        }
-    }
-
-    function modifier_code_livre ($code_Livraison,$code_livre)
+  /*  function modifier_code_livre ($code_Livraison,$code_livre)
     {
         $sql="UPDATE livraison SET code_livre=:code_livre where code_Livraison=:code_Livraison";
-        // $db =Connexion::getConnexion();
-        global $db;
+       $db =Connexion::getConnexion();
         $req=$db->prepare($sql);
 
         $req->bindValue(':code_livre',$code_livre);
@@ -167,53 +184,33 @@ class livraisonC
             die('Erreur: '.$e->getMessage());
         }
 
-    }
+    }*/
 
-    function modifierlivraison($livraison,$code_Livraison){
-        $sql="UPDATE livraison SET nom=:nom,prenom=:prenom,adresse_ligne_1=:adresse_ligne_1,adresse_ligne_2=:adresse_ligne_2,ville=:ville,mail=:mail,num_tel=:num_tel WHERE code_Livraison=:code_Livraison";
-        //$sql="INSERT INTO employe (cin,nom,prenon,nbHeurs,tarifHeur) values (:cin, :nom,:prenom,:nbH,:tarifH)";
-        //$sql="INSERT INTO livraison (code_Livraison,nom,prenom,adresse_ligne_1,adresse_ligne_2,ville,mail,num_tel,code_livre) values (:code_Livraison, :nom,:prenom,:adresse_ligne_1,:adresse_ligne_2,:ville,:mail,:num_tel,:code_livre)";
-        global $db;
-        //$db =Connexion::getConnexion();
-        //$db->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+   function modifierlivraison($livraison,$idLivraison)
+   {
+        
+       
+         $sql="UPDATE livraison SET dateLivraison=:dateLivraison WHERE idLivraison=:idLivraison";
+         $db = Config::getConnexion();          
+         $req=$db->prepare($sql);
+
         try{
-            $req=$db->prepare($sql);
-            $nom=$livraison->getnom();
-            $prenom=$livraison->getprenom();
-            $adresse_ligne_1=$livraison->getadresse_ligne_1();
-            $adresse_ligne_2=$livraison->getadresse_ligne_2();
-            $ville=$livraison->getville();
-            $mail=$livraison->getmail();
-            $num_tel=$livraison->getnum_tel();
+            $dateLivraison=$livraison->getdateLivraison();
+      
+            $req->bindValue(':dateLivraison',$dateLivraison);
+           $req->bindValue(':idLivraison',$idLivraison);
 
-            $req->bindValue(':code_Livraison',$code_Livraison);
-            $req->bindValue(':nom',$nom);
-            $req->bindValue(':prenom',$prenom);
-            $req->bindValue(':adresse_ligne_1',$adresse_ligne_1);
-            $req->bindValue(':adresse_ligne_2',$adresse_ligne_2);
-
-            $req->bindValue(':ville',$ville);
-            $req->bindValue(':mail',$mail);
-            $req->bindValue(':num_tel',$num_tel);
-
-
-
-            $s=$req->execute();
-
-            // header('Location: index.php');
-        }
+            $req->execute();
+        }  
         catch (Exception $e){
             echo " Erreur ! ".$e->getMessage();
-            echo " Les datas : " ;
+           
+        }}
 
-        }
-
-    }
-
-    function recupererlivraison($code_Livraison){
-        $sql="SELECT * from livraison where code_Livraison=$code_Livraison";
-        //$db =Connexion::getConnexion();
-        global $db;
+    
+   function recupererLivraison($idLivraison){
+        $sql="SELECT * from livraison where idLivraison=$idLivraison";
+        $db = Config::getConnexion();
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -223,11 +220,25 @@ class livraisonC
         }
     }
 
-    function recupererprix($region){
+    /*function recupererlivraison($idLivraison)
+    {
+        $sql=" SELECT * from livraison where idLivraison=:idLivraison";
+        $db =Config::getConnexion();
+
+        try{
+            $liste=$db->query($sql);
+            return $liste;
+        }
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }*/
+
+   /* function recupererprix($region){
 
         $sql="SELECT * FROM prix WHERE `region`='".$region."'";
-        //$db =Connexion::getConnexion();
-        global $db;
+       $db =Connexion::getConnexion();
+
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -235,12 +246,12 @@ class livraisonC
         catch (Exception $e){
             die('Erreur: '.$e->getMessage());
         }
-    }
+    }*/
 
-    function recupererLivreur($cin){
+  /*  function recupererLivreur($cin){
         $sql="SELECT * from livreur where cin=$cin";
-        //$db =Connexion::getConnexion();
-        global $db;
+        $db =Cofig::getConnexion();
+
         try{
             $liste=$db->query($sql);
             return $liste;
@@ -249,22 +260,22 @@ class livraisonC
             die('Erreur: '.$e->getMessage());
         }
     }
-    public function trier($par)
+    */
+    /*function affecterlivraison($livreur,$livraison)
     {
-        $sql="SELECT * FROM livraison order by $par ";
 
-        global $db;
+        $db=configuration::getConnexion();
+        $sql="INSERT INTO livraison(id) values(:id)";
         try{
-            $result=$db->query($sql);
-
-            return $result;
-
+            $req=$db->prepare($sql);
+            $id=$livreur->getcin();
+            $req->bindvalue('id',$id);
+            $req->execute();
         }
         catch (Exception $e){
             die('Erreur: '.$e->getMessage());
         }
-    }
-
-
+    }*/
 }
+
 ?>

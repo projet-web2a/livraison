@@ -5,10 +5,10 @@
  * Date: 29/03/2019
  * Time: 00:46
  */
-include "core/livraisonC.php";
-include "entite/livraison.php";
-$l = new livraisonC();
-$l->supprimerlivraison($_GET['id']);
+require 'C:/xampp/htdocs/eyezone/core/livraisonC.php';
+
+$livraison = new livraisonC();
+$livraison->supprimerlivraison($_GET['id']);
 header('Location: livraison.php');
 ?>
 

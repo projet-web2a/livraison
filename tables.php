@@ -1,33 +1,9 @@
-
-<?php
-
-include "C:/xampp/htdocs/EyeZone/core/livraisonC.php";
-include "C:/xampp/htdocs/EyeZone/entites/livraison.php";
-require_once 'C:/xampp/htdocs/eyezone/config.php';
-
-$livraison= new livraisonC();
-$livraisons=$livraison->afficherlivraison();
-if(isset($_GET['maction']))
-{$maction=$_GET['maction'];
-    
-    $par=$_GET['par'];
-   
-    $livraisons=$livraison->trier($par);
-}
-if(isset($_GET['recherche']))
-{
-$search_value=$_GET["recherche"];
-$livraison= new livraisonC();
-$livraisons=$livraison->recherche($search_value);
-}
-?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Livraison</title>
+    <title>EyeZone | Produits</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -65,7 +41,7 @@ $livraisons=$livraison->recherche($search_value);
             <div class="navbar-holder d-flex align-items-center justify-content-between">
               <!-- Navbar Header-->
               <div class="navbar-header">
-                <!-- Navbar Brand --><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
+                <!-- Navbar Brand --><a href="index.php" class="navbar-brand d-none d-sm-inline-block">
                   <div class="brand-text d-none d-lg-inline-block"> EyeZone</div>
                   <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div></a>
                 <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
@@ -129,7 +105,7 @@ $livraisons=$livraison->recherche($search_value);
                   </ul>
                 </li>
                 <!-- Logout    -->
-                <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
+                <li class="nav-item"><a href="login.php" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
               </ul>
             </div>
           </div>
@@ -137,19 +113,19 @@ $livraisons=$livraison->recherche($search_value);
       </header>
       <div class="page-content d-flex align-items-stretch"> 
         <!-- Side Navbar -->
-<nav class="side-navbar">
+        <nav class="side-navbar">
           <!-- Sidebar Header-->
           <div class="sidebar-header d-flex align-items-center">
             <div class="avatar"><img src="img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
               <h1 class="h4">Wafa Rabeh</h1>
-              <p> Manager</p>
+              <p>Manager</p>
             </div>
           </div>
           <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-            <ul class="list-unstyled">
-            <li ><a href="index.php"> <em class="icon-home"></em>  Home </a></li>
-            <li><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
+          <ul class="list-unstyled">
+            <li><a href="index.php"> <i class="icon-home"></i>Home </a></li>
+            <li class="active"><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
             <li><a href="commande.php"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
             <li><a href="forms.php"> <i class="icon-padnote"></i>Clients </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
@@ -159,12 +135,9 @@ $livraisons=$livraison->recherche($search_value);
                 <li><a href="#">Page</a></li>
               </ul>
             </li>
-            <li <li class="active"><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
-            <li><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
-
-            <li><a href="tables.php"> <i class="icon-grid"></i>Service aprés vente </a></li>
+            <li><a href="login.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
+            <li><a href="login.php"> <i class="icon-interface-windows"></i>service aprés vente </a></li>
           </ul><span class="heading">Extras</span>
-            <ul><span class="heading">Extras</span>
           <ul class="list-unstyled">
             <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
             <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
@@ -182,88 +155,155 @@ $livraisons=$livraison->recherche($search_value);
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item active">Livraisons</li>
+              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+              <li class="breadcrumb-item active">Produits</li>
             </ul>
           </div>
           <section class="tables">   
             <div class="container-fluid">
               <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                   <div class="card">
                     <div class="card-close">
                       <div class="dropdown">
-                        <button type="button" id="closeCard4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                        <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
                       </div>
                     </div>
                     <div class="card-header d-flex align-items-center">
-                      <h3 class="h4">Table des livraisons:</h3>
+                      <h3 class="h4">Basic Table</h3>
                     </div>
                     <div class="card-body">
-                          <form method="get" action="livraison.php" >
-                              <input type="text" class=" btn btn-dark float-right" name="recherche" placeholder="Taper pour chercher…">
-                              <input type="submit" class="btn btn-dark float-right"  value="recherche">
-                          </form>
-                     <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Trier Par
-                          </a>
-
-                          <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=idLivraison">ID ivraison</a>
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=idLivreur">ID Livreur</a>
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=idCommande">ID Commande</a>
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=nom_ville">Ville</a>
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=adresseLivraison">Adresse </a>
-                              <a class="dropdown-item " href="livraison.php?maction=trier&par=dateLivraison">Date Livraison</a>
-                          </div>
-                      <div class="table-responsive">   
-                        <table class="table table-striped table-sm">
+                      <div class="table-responsive">
+                        <table class="table">
                           <thead>
                             <tr>
-                              <th>Id Livraison</th>
-                              <th>Id Livreur </th>
-                              <th>Ville</th>
-                              <th>Adresse </th>
-                              <th>Tél</th>
-                              <th>Username </th>
-                              <th>Id Commande</th>
-                              <th>Date de livraison</th>
-                              <th> Action </th>
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
                             </tr>
                           </thead>
                           <tbody>
-                          <?php foreach ($livraisons as $li) { ?>
                             <tr>
-                              <th scope="row"><?php echo $li['idLivraison']  ?></th>
-                              <td><?php echo $li['idLivreur']  ?></td> 
-                              <td><?php echo $li['nom_ville']  ?></td>
-                              <td><?php echo $li['adresseLivraison']  ?></td>
-                              <td><?php echo $li['num_tel']  ?></td>
-                              <td><?php echo $li['username']  ?></td>
-                              <td><?php echo $li['idCommande']  ?></td>
-                              <td><?php echo $li['dateLivraison']  ?></td>
-                              <td>
-                                <a href="modifierlivraison.php?id=<?php echo $li['idLivraison']?> " class="btn btn-primary">Modifier</a> 
-                                  <a href="supprimerlivraison.php?id=<?php echo $li['idLivraison']?>" class="btn btn-danger">supprimer</a> 
-                                  <a href="affecterLivreur.php?nom_ville=<?=$li['nom_ville']?>&id=<?=$li['idLivraison']?>" class="btn btn-primary">Affecter Livreur</a> 
-                                
-</td>
-
-
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
                             </tr>
-                          <?php }?>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter</td>
+                            </tr>
                           </tbody>
                         </table>
-
-
-                          <a href="livraison.php" class="btn btn-dark"> retour</a>
-
                       </div>
                     </div>
                   </div>
                 </div>
-                                <div class="col-lg-12">
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard2" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Striped Table</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">  
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter                            </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard3" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Striped table with hover effect</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">                       
+                        <table class="table table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter                            </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
                   <div class="card">
                     <div class="card-close">
                       <div class="dropdown">
@@ -272,15 +312,58 @@ $livraisons=$livraison->recherche($search_value);
                       </div>
                     </div>
                     <div class="card-header d-flex align-items-center">
-                      <h3 class="h4">Table des livraisons:</h3>
+                      <h3 class="h4">Compact Table</h3>
                     </div>
                     <div class="card-body">
-                         
-                    
                       <div class="table-responsive">   
-                       <?php require 'statistiquelivraison.php' ;?>
-
-
+                        <table class="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter      </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">6</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter      </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

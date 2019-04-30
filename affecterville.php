@@ -1,19 +1,30 @@
+
 <?php
-include "C:/xampp/htdocs/EyeZone/core/livraisonC.php";
-include "C:/xampp/htdocs/EyeZone/entites/livraison.php";
+include "C:/xampp/htdocs/EyeZone/core/livreurC.php";
 
 
+$livraison= new livreurC();
+$ville=$livraison->afficherville();
+$id=0;
+if(isset($_GET['id']))
+{
+	$id=$_GET['id'];
+}
+$livreur=$livraison->afficherVilleLivreur($id);
 
-
-$l = new livraisonC();
-$r = $l->recupererLivraison($_GET['id']);
+if (isset($_POST['ville']) )
+{
+$l = new livreurC();
+$l->AffecterVilleLivreur($id,$_POST['ville']);
+header('Location: afficherlivreur.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Livraisons</title>
+    <title>EyeZone | Livreur</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -133,23 +144,23 @@ $r = $l->recupererLivraison($_GET['id']);
                 </div>
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-            <ul class="list-unstyled">
-                <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="supprimerlivraison.php"> <i class="icon-grid"></i>Produits </a></li>
-                <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-                <li ><a href="forms.html"> <i class="icon-padnote"></i>Clients </a></li>
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
-                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                        <li><a href="#">Page</a></li>
-                    </ul>
-                </li>
-                <li class="active">><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
-                <li><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
-               <li><a href="login.html"> <i class="icon-interface-windows"></i> Service après vente </a></li>
+             <ul class="list-unstyled">
+            <li><a href="index.php"> <em class="icon-home"></em>  Home </a></li>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Produits </a></li>
+            <li><a href="commande.php"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
+            <li><a href="forms.php"> <i class="icon-padnote"></i>Clients </a></li>
+            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+                <li><a href="#">Page</a></li>
+              </ul>
+            </li>
+           <li ><a href="livraison.php"> <i class="icon-interface-windows"></i>Livraisons </a></li>
+            <li class="active"><a href="afficherlivreur.php"> <i class="icon-interface-windows"></i>Livreur </a></li>
 
-            </ul><span class="heading">Extras</span>
+            <li><a href="tables.php"> <i class="icon-grid"></i>Service aprés vente </a></li>
+          </ul><span class="heading">Extras</span>
             <ul class="list-unstyled">
                 <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
                 <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
@@ -179,32 +190,63 @@ $r = $l->recupererLivraison($_GET['id']);
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Champs à modifier</h3>
-                                </div> <?php foreach ($r as $m){ ?>           
+                                    <h3 class="h4">Choisissez la ville</h3>
+                                </div>
                                     <div class="card-body">
-                                        <form class="form-horizontal" action="modifierlivr.php?id=<?php echo $_GET['id']?>"  method="post">
+                                        <form action="affecterville.php?id=<?=$id?>" class="form-horizontal" method="post">
                                             <div class="form-group row">
-                                                <label class="col-sm-3 form-control-label" >Date de livraison:</label>
-                                                <div class="col-sm-9">
-                                                <input type="date" class="form-control" name="dateLivraison" value="<?php echo $m['dateLivraison'] ?>" >
-                                                </div>
-                                                
-                                                <div class="col-sm-9">
-                                                   <input type="text" hidden class="form-control" name="username" value="<?php echo $m['username'] ?>">
-                                                </div>
-                                                
-                                                    <input type="text" hidden class="form-control" name="nom_ville" value="<?php echo $m['nom_ville'] ?>" >
-                                                
-                                                    <input hidden type="number" class="form-control" name="idLivraison" value="<?php echo $m['idLivraison'] ?>" >
-                                                
-                                                <div class="col-sm-9"> 
-                                                    <input type="tel" hidden class="form-control" required name="num_tel" pattern="[0-9]{2}[0-9]{3}[0-9]{3}" placeholder="12345678" value="<?php echo $m['num_tel'] ?>" >
-                                                </div>
-                                                    <input type="number" hidden class="form-control" name="idCommande" value="<?php echo $m['idCommande'] ?>" >
-                                                <input type="submit" >
-                                            </div>
+                                                    <label for="ville">VILLE</label>
+      <select name="ville" class="form-control">
+        <?php foreach ($ville as $li) : ?>/
+        <option ><?php echo $li['nom_ville']  ?></option>
+<?php endforeach; ?>
+      </select>
+  </div>
+                                                <input type="submit" class="btn btn-dark" value="Valider" >
                                         </form>
-                                    </div> <?php }  ?>
+                                    </div>
+                            </div>
+                        </div>
+                                                <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-close">
+                                    <div class="dropdown">
+                                        <button type="button" id="closeCard4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                                        <div aria-labelledby="closeCard4" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-header d-flex align-items-center">
+                                    <h3 class="h4">Table des villes</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th>idLivreur</th>
+                                                <th>ville</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($livreur as $li) { ?>
+                                                <tr>
+                                                    <th scope="row"><?php echo $li['idLivreur']  ?></th>
+                                                    <td><?php echo $li['nom_ville']  ?></td>
+                             
+
+                                                </tr>
+                                            <?php }?>
+
+          
+                                            </tbody>
+                                        </table>
+                                    
+                                        <a href="afficherlivreur.php" class="btn btn-primary"> retour</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,3 +280,7 @@ $r = $l->recupererLivraison($_GET['id']);
 <script src="js/front.js"></script>
 </body>
 </html>
+
+
+
+
